@@ -6,6 +6,8 @@ use App\Models\Topic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicRequest;
+use App\Models\Category;
+use Auth;
 
 class TopicsController extends Controller
 {
@@ -25,28 +27,69 @@ class TopicsController extends Controller
 		return view('topics.index', compact('topics'));
 	}
 
+	/**
+	 * 话题详情
+	 *
+	 * @param \App\Models\Topic $topic
+	 *
+	 * @return void
+	 */
     public function show(Topic $topic)
     {
         return view('topics.show', compact('topic'));
     }
 
+	/**
+	 * 新增话题页面
+	 *
+	 * @param \App\Models\Topic $topic
+	 *
+	 * @return void
+	 */
 	public function create(Topic $topic)
 	{
-		return view('topics.create_and_edit', compact('topic'));
+		$categories = Category::all();
+		return view('topics.create_and_edit', compact('topic', 'categories'));
 	}
 
-	public function store(TopicRequest $request)
+	/**
+	 * 新建话题
+	 *
+	 * @param \App\Http\Requests\TopicRequest $request
+	 * @param \App\Models\Topic $topic
+	 *
+	 * @return void
+	 */
+	public function store(TopicRequest $request, Topic $topic)
 	{
-		$topic = Topic::create($request->all());
-		return redirect()->route('topics.show', $topic->id)->with('message', 'Created successfully.');
+		$topic->fill($request->all());
+		$topic->user_id = Auth::id();
+		$topic->save();
+
+		return redirect()->route('topics.show', $topic->id)->with('success', '帖子创建成功！');
 	}
 
+	/**
+	 * 话题编辑页
+	 *
+	 * @param \App\Models\Topic $topic
+	 *
+	 * @return void
+	 */
 	public function edit(Topic $topic)
 	{
         $this->authorize('update', $topic);
 		return view('topics.create_and_edit', compact('topic'));
 	}
 
+	/**
+	 * 更新话题
+	 *
+	 * @param \App\Http\Requests\TopicRequest $request
+	 * @param \App\Models\Topic $topic
+	 *
+	 * @return void
+	 */
 	public function update(TopicRequest $request, Topic $topic)
 	{
 		$this->authorize('update', $topic);
@@ -55,6 +98,13 @@ class TopicsController extends Controller
 		return redirect()->route('topics.show', $topic->id)->with('message', 'Updated successfully.');
 	}
 
+	/**
+	 * 删除话题
+	 *
+	 * @param \App\Models\Topic $topic
+	 *
+	 * @return void
+	 */
 	public function destroy(Topic $topic)
 	{
 		$this->authorize('destroy', $topic);

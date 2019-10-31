@@ -21,6 +21,7 @@
               <i class="far fa-trash-alt"></i>
             </a>
           </span>
+          
         </div>
         <div class="reply-content text-secondary">
           {!! $reply->content !!}

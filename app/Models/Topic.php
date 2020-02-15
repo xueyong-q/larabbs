@@ -77,4 +77,15 @@ class Topic extends Model
         // 按照创建时间排序
         return $query->orderBy('created_at', 'desc');
     }
+
+    /**
+     * 更新回复统计
+     *
+     * @return void
+     */
+    public function updateReplyCount()
+    {
+        $this->reply_count = $this->replies->count();
+        $this->save();
+    }
 }

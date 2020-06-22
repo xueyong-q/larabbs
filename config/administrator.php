@@ -61,7 +61,6 @@ return array(
     'menu' => [
         '用户与权限' => [
             'users',
-<<<<<<< HEAD
             'roles',
             'permissions',
         ],
@@ -73,8 +72,6 @@ return array(
         '站点管理' => [
             'settings.site',
             'links'
-=======
->>>>>>> deec2757692e1c2c73adcc7ceac2d8365edc1071
         ]
     ],
 
@@ -108,11 +105,7 @@ return array(
      *
      * @type string
      */
-<<<<<<< HEAD
     'home_page' => 'topics',
-=======
-    'home_page' => '',
->>>>>>> deec2757692e1c2c73adcc7ceac2d8365edc1071
 
     /*
      * The route to which the user will be taken when they click the "back to site" button
@@ -126,11 +119,7 @@ return array(
      *
      * @type string
      */
-<<<<<<< HEAD
     'login_path' => 'permission-denied',
-=======
-    'login_path' => 'login',
->>>>>>> deec2757692e1c2c73adcc7ceac2d8365edc1071
 
     /*
      * The logout path is the path where Administrator will send the user when they click the logout link

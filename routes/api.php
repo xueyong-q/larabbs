@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,12 +14,24 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
-    // 短信验证码
-    Route::post('verificationCodes', 'VerificationCodesController@store')
-        ->name('verificationCodes.store');
+Route::prefix('v1')
+    ->namespace('Api')
+    ->name('api.v1.')
+    ->group(function () {
+        // 登录相关
+        Route::middleware('throttle:' . config('api.rate_limits.sign'))
+            ->group(function () {
+                // 短信验证码
+                Route::post('verificationCodes', 'VerificationCodesController@store')
+                    ->name('verificationCodes.store');
 
-    // 用户注册路由
-    Route::post('users', 'UsersController@store')
-        ->name('users.store');
-});
+                // 用户注册路由
+                Route::post('users', 'UsersController@store')
+                    ->name('users.store');
+            });
+
+        // 其他业务接口
+        Route::middleware('throttle:' . config('api.rate_limits.access'))
+            ->group(function () {
+            });
+    });

@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use Auth;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContracts;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
-use Auth;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements MustVerifyEmailContracts
+class User extends Authenticatable implements MustVerifyEmailContracts, JWTSubject
 {
     use MustVerifyEmailTrait;
     use Traits\ActiveUserHelper;
@@ -99,11 +100,21 @@ class User extends Authenticatable implements MustVerifyEmailContracts
     public function setAvatarAttribute($path)
     {
         // 如果不是 `http` 子串开头，那就是从后台上传的，需要补全 URL
-        if ( ! starts_with($path, 'http')) {
+        if (!starts_with($path, 'http')) {
             // 拼接完整的 URL
             if ($path) $path = config('app.url') . "/uploads/images/avatars/$path";
         }
 
         $this->attributes['avatar'] = $path;
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

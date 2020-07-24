@@ -57,6 +57,9 @@ Route::prefix('v1')
                 Route::get('users/{user}', 'UsersController@show')
                     ->name('users.show');
 
+                Route::get('categories', 'CategoriesController@index')
+                ->name('categories.index');
+
                 // 登录后可访问的接口
                 Route::middleware('auth:api')->group(function () {
                     // 当前登录用户信息

@@ -14,13 +14,10 @@ class AuthorizationRequest extends FormRequest
     {
         return [
             'username' => [
-                'required',
-                'string'
+                'required', 'string'
             ],
             'password' => [
-                'required',
-                'alpha_dash',
-                'min:6'
+                'required', 'alpha_dash', 'min:6'
             ]
         ];
     }

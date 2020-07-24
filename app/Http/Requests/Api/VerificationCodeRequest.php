@@ -15,12 +15,10 @@ class VerificationCodeRequest extends FormRequest
     {
         return [
             'captcha_key' => [
-                'required',
-                'string',
+                'required', 'string',
             ],
             'captcha_code' => [
-                'required',
-                'string',
+                'required', 'string',
             ],
         ];
     }

@@ -14,19 +14,16 @@ class SocialAuthorizationRequest extends FormRequest
     {
         $rules = [
             'code' => [
-                'required_without:access_token',
-                'string',
+                'required_without:access_token', 'string',
             ],
             'access_token' => [
-                'required_without:code',
-                'string'
+                'required_without:code', 'string'
             ],
         ];
 
         if ($this->social_type == 'weixin' && !$this->code) {
             $rules['openid'] = [
-                'required',
-                'string',
+                'required', 'string',
             ];
         }
 

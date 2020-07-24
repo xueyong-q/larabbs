@@ -35,22 +35,33 @@ Route::prefix('v1')
 
                 // 第三方登录
                 Route::post('socials/{social_type}/authorizations', 'AuthorizationsController@socialStore')
-                ->where('social_type', 'weixin')
-                ->name('socials.authorizations.store');
+                    ->where('social_type', 'weixin')
+                    ->name('socials.authorizations.store');
 
                 // 登录接口
                 Route::post('authorizations', 'AuthorizationsController@store')
-                ->name('api.authorizations.store');
+                    ->name('api.authorizations.store');
                 // 刷新token
                 Route::put('authorizations/current', 'AuthorizationsController@update')
-                ->name('api.authorizations.update');
+                    ->name('api.authorizations.update');
                 // 过期token
                 Route::delete('authorizations/current', 'AuthorizationsController@destory')
-                ->name('api.authorizations.destory');
+                    ->name('api.authorizations.destory');
             });
 
         // 其他业务接口
         Route::middleware('throttle:' . config('api.rate_limits.access'))
             ->group(function () {
+
+                // 某个用户的详情
+                Route::get('users/{user}', 'UsersController@show')
+                    ->name('users.show');
+
+                // 登录后可访问的接口
+                Route::middleware('auth:api')->group(function () {
+                    // 当前登录用户信息
+                    Route::get('user', 'UsersController@me')
+                        ->name('user.show');
+                });
             });
     });

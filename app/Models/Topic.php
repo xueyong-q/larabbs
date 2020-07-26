@@ -48,7 +48,8 @@ class Topic extends Model
         }
 
         // 预加载防止 N+1 问题
-        return $query->with('user', 'category');
+        return $query;
+        // return $query->with('user', 'category');
     }
 
     /**

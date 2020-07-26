@@ -6,22 +6,79 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TopicRequest;
 use App\Http\Resources\TopicResource;
 use App\Models\Topic;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TopicsController extends Controller
 {
     /**
-     * 发布文章
+     * 文章列表
      *
-     * @param \App\Http\Requests\Api\TopicRequest $resuest
+     * @param \App\Http\Requests\Api\TopicRequest $request
      * @param \App\Models\Topic $topic
      *
      * @return void
      */
-    public function store(TopicRequest $resuest, Topic $topic)
+    public function index(Request $request, Topic $topic)
     {
-        $topic->fill($resuest->all());
-        $topic->user_id = $resuest->user()->id;
+        $query = $topic->query();
+
+        if ($categoryId = $request->category_id) {
+            $query->where('category_id', $categoryId);
+        }
+
+        $topics = QueryBuilder::for(Topic::class)
+            ->allowedIncludes('user', 'category')
+            ->allowedFilters([
+                'title',
+                AllowedFilter::exact('category_id'),
+                AllowedFilter::scope('withOrder')->default('recentReplied'),
+            ])
+            ->paginate();
+
+        // $topics = $query->withOrder($request->order)->paginate();
+
+        return TopicResource::collection($topics);
+    }
+
+    /**
+     * 某个用户的文章列表
+     *
+     * @param \App\Http\Requests\Api\TopicRequest $request
+     * @param \App\Models\User $user
+     *
+     * @return void
+     */
+    public function userIndex(Request $request, User $user)
+    {
+        $query = $user->topics()->getQuery();
+
+        $topics = QueryBuilder::for($query)
+            ->allowedIncludes('user', 'category')
+            ->allowedFilters([
+                'title',
+                AllowedFilter::exact('category_id'),
+                AllowedFilter::scope('withOrder')->default('recentReplied'),
+            ])
+            ->paginate();
+
+        return TopicResource::collection($topics);
+    }
+
+    /**
+     * 发布文章
+     *
+     * @param \App\Http\Requests\Api\TopicRequest $request
+     * @param \App\Models\Topic $topic
+     *
+     * @return void
+     */
+    public function store(TopicRequest $request, Topic $topic)
+    {
+        $topic->fill($request->all());
+        $topic->user_id = $request->user()->id;
         $topic->save();
 
         return new TopicResource($topic);

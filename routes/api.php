@@ -58,19 +58,26 @@ Route::prefix('v1')
                     ->name('users.show');
 
                 Route::get('categories', 'CategoriesController@index')
-                ->name('categories.index');
+                    ->name('categories.index');
+
+                // 话题列表、详情
+                Route::resource('topics', 'TopicsController')
+                    ->only(['index', 'show']);
 
                 // 登录后可访问的接口
                 Route::middleware('auth:api')->group(function () {
                     // 当前登录用户信息
                     Route::get('user', 'UsersController@me')
                         ->name('user.show');
-
+                    // 修改用户信息
                     Route::patch('user', 'UsersController@update')
                         ->name('user.update');
-
+                    // 上传图片
                     Route::post('images', 'ImagesController@store')
                         ->name('images.store');
+                    // 话题发布
+                    Route::resource('topics', 'TopicsController')
+                        ->only(['store', 'update', 'destroy']);
                 });
             });
     });

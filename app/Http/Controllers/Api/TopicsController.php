@@ -42,4 +42,20 @@ class TopicsController extends Controller
 
         return new TopicResource($topic);
     }
+
+    /**
+     * 删除文章
+     *
+     * @param \App\Models\Topic $topic
+     *
+     * @return void
+     */
+    public function destroy(Topic $topic)
+    {
+        $this->authorize('destroy', $topic);
+
+        $topic->delete();
+
+        return new TopicResource($topic);
+    }
 }

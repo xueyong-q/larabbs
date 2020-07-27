@@ -34,4 +34,18 @@ class NotificationsController extends Controller
             'unread_count' => $request->user()->notification_count,
         ]);
     }
+
+    /**
+     * 标记通知信息为已读
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return void
+     */
+    public function read(Request $request)
+    {
+        $request->user()->markAsRead();
+
+        return response(null, 204);
+    }
 }

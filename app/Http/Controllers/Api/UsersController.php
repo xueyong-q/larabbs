@@ -90,4 +90,17 @@ class UsersController extends Controller
 
         return (new UserResource($user))->showSensitiveFields();
     }
+
+    /**
+     * 活跃用户
+     *
+     * @param \App\Models\User $user
+     *
+     * @return void
+     */
+    public function activedIndex(User $user)
+    {
+        UserResource::wrap('data');
+        return UserResource::collection($user->getActiveUsers());
+    }
 }

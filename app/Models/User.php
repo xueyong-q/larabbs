@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContracts;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
+use Laravel\Passport\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements MustVerifyEmailContracts, JWTSubject
@@ -15,6 +16,7 @@ class User extends Authenticatable implements MustVerifyEmailContracts, JWTSubje
     use MustVerifyEmailTrait;
     use Traits\ActiveUserHelper;
     use Traits\LastActivedAtHelper;
+    use HasApiTokens;
 
     use Notifiable {
         notify as protected laravelNotify;
@@ -116,5 +118,14 @@ class User extends Authenticatable implements MustVerifyEmailContracts, JWTSubje
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function findForPassport($username)
+    {
+        filter_var($username, FILTER_VALIDATE_EMAIL) ?
+            $credentials['email'] = $username :
+            $credentials['phone'] = $username;
+
+        return self::where($credentials)->first();
     }
 }

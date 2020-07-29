@@ -10,6 +10,14 @@ use Illuminate\Auth\AuthenticationException;
 
 class VerificationCodesController extends Controller
 {
+    /**
+     * 发送短信验证
+     *
+     * @param \App\Http\Requests\Api\VerificationCodeRequest $request
+     * @param \Overtrue\EasySms\EasySms $easysms
+     *
+     * @return void
+     */
     public function store(VerificationCodeRequest $request, EasySms $easysms)
     {
         $captchaData = \Cache::get($request->captcha_key);

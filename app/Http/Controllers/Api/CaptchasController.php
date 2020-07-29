@@ -8,6 +8,14 @@ use Gregwar\Captcha\CaptchaBuilder;
 
 class CaptchasController extends Controller
 {
+    /**
+     * 获取图片验证码
+     *
+     * @param \App\Http\Requests\Api\CaptchaRequest $request
+     * @param \Gregwar\Captcha\CaptchaBuilder $captchaBuilder
+     *
+     * @return void
+     */
     public function store(CaptchaRequest $request, CaptchaBuilder $captchaBuilder)
     {
         $key = 'captcha-' . Str::random(15);

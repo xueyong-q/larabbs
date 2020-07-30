@@ -1,72 +1,71 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+## 项目简介
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+本项目是基于 Laravel 6.x 框架开发的一个 BBS 论坛系统。
 
-## About Laravel
+## 安装部署
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+首先将本项目克隆至本地开发目录或服务器部署目录上。
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+然后安装扩展包：
+```sh
+$ composer install
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+安装完扩展包后配置项目环境变量，修改 `.env` 配置文件。如不存在 `.env` 配置文件则复制 `.env.example` 文件为 `.env` 并修改配置。
 
-## Learning Laravel
+将环境变量配置好后执行数据迁移：
+```sh
+php artisan migrate
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+然后数据填充【可选】：
+```sh
+php artisan db:seed
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1400 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+测试接口【可选】:
+```sh
+vendor/bin/phpunit
+```
 
-## Laravel Sponsors
+如果是正式环境则执行以下步骤优化其性能。  
+生成配置缓存：
+```sh
+$ php artisan config:cache
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+生成路由缓存：
+```sh
+$ php artisan route:cache
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
+类映射加载优化：
+```sh
+$ php artisan optimize --force
+```
 
-## Contributing
+## 依赖扩展
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| 扩展依赖名称                 | 说明                   |
+| ---------------------------- | ---------------------- |
+| overtrue/laravel-lang        | 语言包                 |
+| mews/captcha                 | 验证码                 |
+| intervention/image           | 图片处理               |
+| summerblue/generator         | 代码生成器             |
+| barryvdh/laravel-debugbar    | Laravel 调试栏         |
+| summerblue/laravel-active    | 为导航栏添加 active 类 |
+| mews/purifier                | 内容过滤               |
+| guzzlehttp/guzzle            | HTTP 请求套件          |
+| overtrue/pinyin              | 中文拼音转换工具       |
+| predis/predis                | Redis 扩展             |
+| laravel/horizon              | 队列监控扩展           |
+| spatie/laravel-permission    | 权限管理               |
+| viacreative/sudo-su          | 用户切换工具           |
+| summerblue/administrator     | 后台管理               |
+| overtrue/easy-sms            | 发送短信               |
+| doctrine/dbal                | 数据库抽象层           |
+| gregwar/captcha              | 适用 Api 的图片验证码  |
+| socialiteproviders/weixin    | 第三方登录扩展         |
+| tymon/jwt-auth               | JWT扩展                |
+| spatie/laravel-query-builder | 根据 Api 请求构建查询  |
+| laravel/passport             | OAuth 认证              |

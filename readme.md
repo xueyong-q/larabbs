@@ -28,6 +28,17 @@ php artisan db:seed
 vendor/bin/phpunit
 ```
 
+配置调度器：
+```sh
+$ export EDITOR=vi && crontab -e
+```
+
+将下面这一行复制到上面命令打开的编辑器内，然后保存：  
+```
+* * * * * php /<项目根目录的绝对路径>/artisan schedule:run >> /dev/null 2>&1
+```
+>注意：<项目根目录的绝对路径> 需要替换成你实际项目根目录的绝对路径。  
+
 如果是正式环境则执行以下步骤优化其性能。  
 生成配置缓存：
 ```sh
@@ -68,4 +79,12 @@ $ php artisan optimize --force
 | socialiteproviders/weixin    | 第三方登录扩展         |
 | tymon/jwt-auth               | JWT扩展                |
 | spatie/laravel-query-builder | 根据 Api 请求构建查询  |
-| laravel/passport             | OAuth 认证              |
+| laravel/passport             | OAuth 认证             |
+
+## 命令行
+
+| 命令                          | 说明                                      |
+| ----------------------------- | ----------------------------------------- |
+| larabbs:calculate-active-user | 生成活跃用户                              |
+| larabbs:generate-token        | 快速为用户生成 token                      |
+| larabbs:sync-user-actived-at  | 将用户最后登录时间从 Redis 同步到数据库中 |

@@ -90,7 +90,7 @@ class TopicsController extends Controller
 
         $topic->delete();
 
-        return new TopicResource($topic);
+        return response(null, 204);
     }
 
     /**

@@ -21,7 +21,7 @@ $ composer run-script post-root-package-install
 $ php artisan key:generate
 ```
 
-安装完扩展包后配置项目环境变量，修改 `.env` 配置文件。如不存在 `.env` 配置文件则复制 `.env.example` 文件为 `.env` 并修改配置。
+然后修改 `.env` 配置文件。  
 
 将环境变量配置好后执行数据迁移：
 ```sh

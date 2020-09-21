@@ -27,7 +27,7 @@ class Topic extends Model
     }
 
     /**
-     * 设置排序并处理 N+1 问题
+     * 设置排序
      *
      * @param [type] $query
      * @param [type] $order
@@ -47,9 +47,18 @@ class Topic extends Model
                 break;
         }
 
-        // 预加载防止 N+1 问题
         return $query;
-        // return $query->with('user', 'category');
+    }
+
+    /**
+     * 预加载防止 N+1 问题
+     *
+     * @param [type] $query
+     * @return void
+     */
+    public function scopeWithTopic($query)
+    {
+        return $query->with('user', 'category');
     }
 
     /**

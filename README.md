@@ -32,6 +32,95 @@ $ php artisan key:generate
 ```
 
 然后修改 `.env` 配置文件。  
+```
+# 项目名称配置
+APP_NAME=LaraBBS
+# 项目环境标识配置，在正式环境中应当配置为 production
+APP_ENV=local
+# 应用秘钥
+APP_KEY=
+# 调试环境配置，在正式环境中应该配置为 false
+APP_DEBUG=true
+# 项目域名配置
+APP_URL=
+
+LOG_CHANNEL=stack
+
+# 数据库类型
+DB_CONNECTION=mysql
+# 数据库访问地址
+DB_HOST=127.0.0.1
+# 数据库访问端口
+DB_PORT=3306
+# 数据库名
+DB_DATABASE=larabbs
+# # 访问数据库用户名
+DB_USERNAME=root
+# 访问数据库用户密码
+DB_PASSWORD=root
+
+BROADCAST_DRIVER=log
+# 缓存类型
+CACHE_DRIVER=redis
+# 队列连接方式
+QUEUE_CONNECTION=redis
+SESSION_DRIVER=redis
+SESSION_LIFETIME=120
+
+# Redis 访问地址
+REDIS_HOST=127.0.0.1
+# Redis 访问密码
+REDIS_PASSWORD=null
+# Redis 访问端口
+REDIS_PORT=6379
+REDIS_CLIENT=phpredis
+
+# 使用支持 ESMTP 的 SMTP 服务器发送邮件
+MAIL_DRIVER=smtp
+# 邮箱的 SMTP 服务器地址
+MAIL_HOST=smtp.163.com
+# SMTP 服务器端口
+MAIL_PORT=25
+# 邮箱的用户名
+MAIL_USERNAME=xxxxxxx@163.com
+# 授权码
+MAIL_PASSWORD=
+# 加密类型
+MAIL_ENCRYPTION=tls
+# 此值必须同 MAIL_USERNAME 一致
+MAIL_FROM_ADDRESS=xxxxxxx@163.com
+MAIL_FROM_NAME=LaraBBS
+
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=
+
+PUSHER_APP_ID=
+PUSHER_APP_KEY=
+PUSHER_APP_SECRET=
+PUSHER_APP_CLUSTER=mt1
+
+MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+
+BAIDU_TRANSLATE_APPID=
+BAIDU_TRANSLATE_KEY=
+
+SMS_ALIYUN_ACCESS_KEY_ID=
+SMS_ALIYUN_ACCESS_KEY_SECRET=
+SMS_ALIYUN_TEMPLATE_REGISTER=
+
+# 接口限流配置
+RATE_LIMITS=60,1
+# 登录注册接口限流配置
+SIGN_RATE_LIMITS=10,1
+
+# 微信第三方登录配置
+WEIXIN_KEY=
+WEIXIN_SECRET=
+JWT_SECRET=
+```
 
 将环境变量配置好后执行数据迁移  
 ```sh
@@ -73,6 +162,11 @@ $ php artisan route:cache
 类映射加载优化  
 ```sh
 $ php artisan optimize --force
+```
+
+启动队列和监控任务
+```sh
+$ php artisan horizon
 ```
 
 ## 依赖扩展
